@@ -73,6 +73,12 @@ It reported `FAIL` and exited non-zero.
 [PASS] scale: in slot 1 (before direction)
        gesture = 3, scale: 1.5, up, fullscreen
        hyprland: REJECTED: Invalid direction: scale: 1.5
+[PASS] scale: above 10 is clamped
+       gesture = 3, up, scale: 20, close
+       hyprland: OK action=close args=[] fingers=3 dir=UP mods=0x0 scale=10 disable_inhibit=false
+[PASS] scale: below 0.1 is clamped
+       gesture = 3, up, scale: 0.01, close
+       hyprland: OK action=close args=[] fingers=3 dir=UP mods=0x0 scale=0.1 disable_inhibit=false
 [PASS] mod: then scale:
        gesture = 3, up, mod: SUPER, scale: 1.5, fullscreen
        hyprland: OK action=fullscreen args=[""] fingers=3 dir=UP mods=0x40 scale=1.5 disable_inhibit=false
@@ -95,7 +101,7 @@ It reported `FAIL` and exited non-zero.
        gesturep = 3, up, close
        hyprland: OK action=close args=[] fingers=3 dir=UP mods=0x0 scale=1 disable_inhibit=true
 
-13 cases, 0 mismatches
+15 cases, 0 mismatches
 ```
 
 In Hyprland 0.54.3, then:
@@ -104,6 +110,7 @@ In Hyprland 0.54.3, then:
   slots makes Hyprland reject the line.
 - After the direction come any number of `mod:` and `scale:` fields, in any order. If one
   repeats, the last one wins.
+- `scale:` is clamped to `[0.1, 10]` instead of being rejected.
 - The first field that isn't `mod:` or `scale:` is the action. Fields after it are the action's
   arguments, so a `mod:` placed after the action is never treated as a modifier.
 - `gesturep` is the same keyword with the `p` flag, which sets `disable_inhibit`.

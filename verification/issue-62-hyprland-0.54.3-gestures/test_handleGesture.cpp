@@ -150,6 +150,11 @@ int main() {
         {"scale: in slot 0 (before fingers)", "gesture", "scale: 1.5, 3, up, fullscreen", "REJECTED: Invalid value scale: 1.5 for finger count"},
         {"scale: in slot 1 (before direction)", "gesture", "3, scale: 1.5, up, fullscreen", "REJECTED: Invalid direction: scale: 1.5"},
 
+        {"scale: above 10 is clamped", "gesture", "3, up, scale: 20, close",
+         R"(OK action=close args=[] fingers=3 dir=UP mods=0x0 scale=10 disable_inhibit=false)"},
+        {"scale: below 0.1 is clamped", "gesture", "3, up, scale: 0.01, close",
+         R"(OK action=close args=[] fingers=3 dir=UP mods=0x0 scale=0.1 disable_inhibit=false)"},
+
         {"mod: then scale:", "gesture", "3, up, mod: SUPER, scale: 1.5, fullscreen",
          R"(OK action=fullscreen args=[""] fingers=3 dir=UP mods=0x40 scale=1.5 disable_inhibit=false)"},
         {"scale: then mod:", "gesture", "3, up, scale: 1.5, mod: SUPER, fullscreen",
